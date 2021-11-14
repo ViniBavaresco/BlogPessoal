@@ -32,15 +32,18 @@ public class UsuarioService {
 
 		if (usuario.isPresent()) {
 			if (encoder.matches(user.get().getSenha(), usuario.get().getSenha())) {
-				
+
 				String auth = user.get().getUsuario() + ":" + user.get().getSenha();
 				byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
 				String authHeader = "Basic " + new String(encodedAuth);
-				
-				user.get().setToken(authHeader);
+
+				user.get().setId(usuario.get().getId());
 				user.get().setNome(usuario.get().getNome());
-				
+				user.get().setSenha(usuario.get().getSenha());
+				user.get().setToken(authHeader);
+
 				return user;
+
 			}
 		}
 		return null;
