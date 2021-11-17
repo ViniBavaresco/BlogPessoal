@@ -1,28 +1,24 @@
 package com.example.demo.security;
 
 import java.util.Collection;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import com.example.demo.model.Usuario;
 
-public class UserDetailsImpl implements UserDetails {
+public class UserDetailsImpl implements UserDetails{
 
 	private static final long serialVersionUID = 1L;
-
+	
 	private String userName;
-
 	private String password;
-
-	public UserDetailsImpl(Usuario user) {
+	
+	public UserDetailsImpl (Usuario user) {
 		this.userName = user.getUsuario();
 		this.password = user.getSenha();
 	}
-
-	public UserDetailsImpl() {
-	}
-
+	
+	public UserDetailsImpl() {}
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
