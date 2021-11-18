@@ -10,6 +10,7 @@ import com.example.demo.model.Usuario;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+	
 	public Optional<Usuario> findByEmail(String email);
 	
 	public List<Usuario> findAllByNomeContainingIgnoreCase(String nome);
