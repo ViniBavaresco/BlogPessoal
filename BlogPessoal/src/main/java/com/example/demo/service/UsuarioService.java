@@ -20,7 +20,7 @@ public class UsuarioService {
 
 	public Optional<Usuario> cadastrarUsuario(Usuario usuario) {
 
-		if (usuarioRepository.findByUsuario(usuario.getUsuario()).isPresent())
+		if (usuarioRepository.findByEmail(usuario.getEmail()).isPresent())
 			return Optional.empty();
 
 		usuario.setSenha(criptografarSenha(usuario.getSenha()));
@@ -33,7 +33,7 @@ public class UsuarioService {
 
 		if (usuarioRepository.findById(usuario.getId()).isPresent()) {
 
-			Optional<Usuario> buscaUsuario = usuarioRepository.findByUsuario(usuario.getUsuario());
+			Optional<Usuario> buscaUsuario = usuarioRepository.findByEmail(usuario.getEmail());
 
 			if (buscaUsuario.isPresent()) {
 				if (buscaUsuario.get().getId() != usuario.getId())
@@ -50,15 +50,17 @@ public class UsuarioService {
 
 	public Optional<UserLogin> autenticarUsuario(Optional<UserLogin> usuarioLogin) {
 
-		Optional<Usuario> usuario = usuarioRepository.findByUsuario(usuarioLogin.get().getUsuario());
+		Optional<Usuario> usuario = usuarioRepository.findByEmail(usuarioLogin.get().getEmail());
 
 		if (usuario.isPresent()) {
 			if (compararSenhas(usuarioLogin.get().getSenha(), usuario.get().getSenha())) {
 
+				String token = gerarBasicToken(usuarioLogin.get().getEmail(), usuarioLogin.get().getSenha());
+
 				usuarioLogin.get().setId(usuario.get().getId());
 				usuarioLogin.get().setNome(usuario.get().getNome());
 				usuarioLogin.get().setSenha(usuario.get().getSenha());
-				usuarioLogin.get().setToken(gerarBasicToken(usuarioLogin.get().getUsuario(), usuarioLogin.get().getSenha()));
+				usuarioLogin.get().setToken(token);
 
 				return usuarioLogin;
 

@@ -37,8 +37,8 @@ public class UsuarioRepositoryTest {
 	@DisplayName("Retorna 1 usuario")
 	public void deveRetornarUmUsuario() {
 
-		Optional<Usuario> usuario = usuarioRepository.findByUsuario("joao@email.com.br");
-		assertTrue(usuario.get().getUsuario().equals("joao@email.com.br"));
+		Optional<Usuario> usuario = usuarioRepository.findByEmail("joao@email.com.br");
+		assertTrue(usuario.get().getEmail().equals("joao@email.com.br"));
 	}
 
 	@Test

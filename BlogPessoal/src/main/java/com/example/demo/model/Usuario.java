@@ -9,11 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 @Table(name = "tb_usuario")
@@ -24,26 +26,27 @@ public class Usuario {
 	private long id;
 
 	@NotBlank(message = "Valor não pode ser nulo")
-	@Size(min = 5, max = 80, message = "O nome completo deve ter entre 5 e 80 caracteres")
+	@Size(min = 2, max = 80, message = "O nome completo deve ter entre 5 e 80 caracteres")
 	private String nome;
 
+	@ApiModelProperty(example = "email@email.com.br")
 	@NotBlank(message = "Valor não pode ser nulo")
-	@Size(min = 5, max = 80, message = "O nome de usuário deve ter entre 5 e 80 caracteres")
-	private String usuario;
+	@Email(message = "O atributo Usuário deve ser um email válido!")
+	private String email;
 
 	@NotBlank(message = "Valor não pode ser nulo")
-	@Size(min = 5, max = 80, message = "A senha deve ter entre 5 e 80 caracteres, com letras e números")
+	@Size(min = 5, message = "A senha deve ter no mínimo 5 caracteres, entre letras e números")
 	private String senha;
 
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties("usuario")
 	private List<Postagem> postagem;
 
-	public Usuario(long id, String nome, String usuario, String senha) {
+	public Usuario(long id, String nome, String email, String senha) {
 
 		this.id = id;
 		this.nome = nome;
-		this.usuario = usuario;
+		this.email = email;
 		this.senha = senha;
 
 	}
@@ -75,12 +78,12 @@ public class Usuario {
 		this.nome = nome;
 	}
 
-	public String getUsuario() {
-		return usuario;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getSenha() {

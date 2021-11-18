@@ -17,7 +17,7 @@ import com.example.demo.model.Postagem;
 import com.example.demo.repository.PostagemRepository;
 
 @RestController
-@RequestMapping("/postagem")
+@RequestMapping("/postagens")
 @CrossOrigin(origins="*",allowedHeaders="*")
 
 public class PostagemController {
